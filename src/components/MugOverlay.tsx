@@ -24,6 +24,10 @@ export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
   if (!mug) return null;
   const textColor = readableTextColor(mug.colore);
 
+  const luogo = [mug.citta, mug.paese].filter(Boolean).join(", ") || mug.nome;
+  const mapQuery = encodeURIComponent(luogo);
+  const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&t=&z=6&ie=UTF8&iwloc=&output=embed`;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-brand-deep/60 p-4 backdrop-blur-sm sm:p-8"
@@ -49,7 +53,7 @@ export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
         {/* Visual */}
         <div
           style={{ backgroundColor: mug.colore, color: textColor }}
-          className="flex min-h-[260px] flex-1 items-center justify-center p-8 sm:min-h-[420px]"
+          className="flex min-h-[220px] flex-1 items-center justify-center p-8 sm:min-h-[420px]"
         >
           {mug.foto ? (
             <img
@@ -74,31 +78,36 @@ export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
           </p>
           <h2 className="font-display mt-1 text-3xl font-semibold text-brand-deep">{mug.nome}</h2>
 
-          <dl className="mt-6 grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <dt className="text-brand-deep/50">Tipo</dt>
-              <dd className="mt-0.5 font-medium text-brand-deep">{mug.tipo || "—"}</dd>
+          {(mug.citta || mug.paese || mug.tipo) && (
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm text-brand-deep/70">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 22s7-7.58 7-12.5A7 7 0 0 0 5 9.5C5 14.42 12 22 12 22Z" />
+                <circle cx="12" cy="9.5" r="2.5" />
+              </svg>
+              <span className="font-medium text-brand-deep">
+                {[mug.citta, mug.paese].filter(Boolean).join(", ") || mug.tipo}
+              </span>
             </div>
-            <div>
-              <dt className="text-brand-deep/50">Anno</dt>
-              <dd className="mt-0.5 font-medium text-brand-deep">{mug.anno || "—"}</dd>
-            </div>
-            <div>
-              <dt className="text-brand-deep/50">Paese</dt>
-              <dd className="mt-0.5 font-medium text-brand-deep">{mug.paese || "—"}</dd>
-            </div>
-            <div>
-              <dt className="text-brand-deep/50">Città / Regione</dt>
-              <dd className="mt-0.5 font-medium text-brand-deep">{mug.citta || "—"}</dd>
-            </div>
-          </dl>
+          )}
 
           {mug.note && (
             <div className="mt-6 border-t border-brand-light pt-6">
-              <dt className="text-brand-deep/50 text-sm">Note</dt>
+              <dt className="text-sm text-brand-deep/50">Note</dt>
               <dd className="mt-1 text-sm leading-relaxed text-brand-deep">{mug.note}</dd>
             </div>
           )}
+
+          <div className="mt-6 overflow-hidden rounded-xl border border-brand-light">
+            <iframe
+              title={`Mappa ${luogo}`}
+              src={mapSrc}
+              width="100%"
+              height="220"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
         </div>
       </div>
     </div>

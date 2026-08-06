@@ -19,7 +19,7 @@ export default function MugGrid({ mugs, onSelect }: MugGridProps) {
   }
 
   return (
-    <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-[2px] bg-brand-deep/10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="mx-auto grid max-w-[1600px] grid-cols-1 gap-[2px] bg-brand-deep/10 sm:grid-cols-2">
       {mugs.map((mug) => (
         <MugCard key={mug.id} mug={mug} onClick={() => onSelect(mug)} />
       ))}

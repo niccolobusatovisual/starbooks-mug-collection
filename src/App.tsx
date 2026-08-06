@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import mugsData from "./data/mugs.json";
 import type { Mug } from "./types";
 import Header from "./components/Header";
-import SearchFilters from "./components/SearchFilters";
+import SearchFilters, { type SortOption } from "./components/SearchFilters";
 import MugGrid from "./components/MugGrid";
 import MugOverlay from "./components/MugOverlay";
 
@@ -12,6 +12,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [collezione, setCollezione] = useState("");
   const [paese, setPaese] = useState("");
+  const [sortBy, setSortBy] = useState<SortOption>("alfabetico");
   const [selected, setSelected] = useState<Mug | null>(null);
 
   const collezioni = useMemo(
@@ -28,7 +29,7 @@ function App() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return mugs.filter((m) => {
+    const result = mugs.filter((m) => {
       if (collezione && m.collezione !== collezione) return false;
       if (paese && m.paese !== paese) return false;
       if (q) {
@@ -37,13 +38,29 @@ function App() {
       }
       return true;
     });
-  }, [query, collezione, paese]);
+
+    const sorted = [...result];
+    if (sortBy === "alfabetico") {
+      sorted.sort((a, b) => a.nome.localeCompare(b.nome));
+    } else if (sortBy === "collezione") {
+      sorted.sort(
+        (a, b) =>
+          a.collezione.localeCompare(b.collezione) || a.nome.localeCompare(b.nome)
+      );
+    } else if (sortBy === "paese") {
+      sorted.sort(
+        (a, b) =>
+          (a.paese || "").localeCompare(b.paese || "") || a.nome.localeCompare(b.nome)
+      );
+    }
+    return sorted;
+  }, [query, collezione, paese, sortBy]);
 
   const hasActiveFilters = Boolean(query || collezione || paese);
 
   return (
     <div className="min-h-screen bg-cream">
-      <Header total={mugs.length} shown={filtered.length} />
+      <Header />
       <SearchFilters
         query={query}
         onQueryChange={setQuery}
@@ -51,6 +68,8 @@ function App() {
         onCollezioneChange={setCollezione}
         paese={paese}
         onPaeseChange={setPaese}
+        sortBy={sortBy}
+        onSortByChange={setSortBy}
         collezioni={collezioni}
         paesi={paesi}
         onReset={() => {
@@ -59,6 +78,8 @@ function App() {
           setPaese("");
         }}
         hasActiveFilters={hasActiveFilters}
+        total={mugs.length}
+        shown={filtered.length}
       />
       <main>
         <MugGrid mugs={filtered} onSelect={setSelected} />
