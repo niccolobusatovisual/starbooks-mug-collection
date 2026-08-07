@@ -34,7 +34,7 @@ export default function SearchFilters({
   shown,
 }: SearchFiltersProps) {
   return (
-    <div className="sticky top-[68px] z-20 border-b border-brand-light/60 bg-cream/95 backdrop-blur sm:top-[80px]">
+    <div className="sticky top-0 z-20 border-b border-brand-light/60 bg-cream/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-3 px-5 py-3 sm:px-8">
         <div className="relative min-w-[200px] flex-1">
           <svg
