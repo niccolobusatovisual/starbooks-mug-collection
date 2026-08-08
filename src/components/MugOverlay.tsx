@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import type { Mug } from "../types";
 import { readableTextColor } from "../lib/contrast";
+import descrizioni from "../data/descrizioni.json";
 
 interface MugOverlayProps {
   mug: Mug | null;
   onClose: () => void;
 }
+
+const testi = descrizioni as Record<string, string>;
 
 export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
   useEffect(() => {
@@ -27,6 +30,7 @@ export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
   const luogo = [mug.citta, mug.paese].filter(Boolean).join(", ") || mug.nome;
   const mapQuery = encodeURIComponent(luogo);
   const mapSrc = `https://maps.google.com/maps?q=${mapQuery}&t=&z=6&ie=UTF8&iwloc=&output=embed`;
+  const descrizione = testi[`${mug.nome}|${mug.collezione}`];
 
   return (
     <div
@@ -53,7 +57,7 @@ export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
         {/* Visual */}
         <div
           style={{ backgroundColor: mug.colore, color: textColor }}
-          className="flex min-h-[220px] flex-1 items-center justify-center p-8 sm:min-h-[420px]"
+          className="flex min-h-[220px] items-center justify-center p-8 sm:min-h-[420px] sm:w-2/5 sm:shrink-0"
         >
           {mug.foto ? (
             <img
@@ -88,6 +92,10 @@ export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
                 {[mug.citta, mug.paese].filter(Boolean).join(", ") || mug.tipo}
               </span>
             </div>
+          )}
+
+          {descrizione && (
+            <p className="mt-5 text-sm leading-relaxed text-brand-deep/80">{descrizione}</p>
           )}
 
           {mug.note && (
