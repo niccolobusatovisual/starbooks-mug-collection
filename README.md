@@ -20,13 +20,28 @@ npm run dev
 
 ## Aggiungere le foto
 
-1. Metti le foto in `public/mugs/`, con nome che inizia con l'ID a 3 cifre della tazza seguito da un trattino, es. `001-roma.jpg`, `037-tokyo.png` (l'ID è la colonna `ID` nell'Excel).
+Le foto vanno scontornate su fondo trasparente, con l'ombra di contatto già inclusa
+nell'immagine (il sito non la disegna: senza, la tazza sembra fluttuare).
+Formato consigliato: WebP a 1000 px di larghezza, qualità ~86 — circa 45 KB contro i 500 KB
+di un PNG equivalente.
+
+1. Metti le foto in `public/mugs/`. Il nome inizia con l'ID a 3 cifre della tazza (colonna `ID`
+   nell'Excel) seguito da un trattino:
+   - `036-hungary.webp` — vista frontale, quella con il nome. È la foto della card.
+   - `036-hungary-retro.webp` — vista posteriore, facoltativa. Si vede solo nell'overlay,
+     tramite il selettore Fronte/Retro.
 2. Lancia:
    ```bash
    npm run extract-colors
    ```
-   Questo calcola automaticamente il colore dominante di ogni foto e aggiorna lo sfondo della card corrispondente in `src/data/mugs.json`. Le tazze senza foto restano con un colore di fallback.
+   Questo popola `foto`, `fotoRetro` e `colore` in `src/data/mugs.json`. Il colore non è la
+   media della foto (uscirebbe grigia: la tazza è quasi tutta ceramica bianca) ma la tonalità
+   dominante della grafica stampata. Le tazze senza foto restano con un colore di fallback.
 3. Rilancia `npm run dev` o `npm run build` per vedere i risultati.
+
+**Attenzione all'ordine:** `npm run data:refresh` rigenera `mugs.json` dall'Excel e azzera
+`foto`, `fotoRetro` e i colori. Vanno sempre rilanciati in sequenza:
+`npm run data:refresh && npm run extract-colors`.
 
 ## Deploy su GitHub Pages
 
