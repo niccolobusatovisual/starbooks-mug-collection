@@ -2,7 +2,8 @@
 //
 // Come funziona:
 // - Cerca in public/mugs/ un file che inizia con "<id>-" (es. 001-roma.jpg, 037-tokyo.webp).
-//   Le viste posteriori (`-retro`) vengono ignorate: la card usa la vista frontale.
+//   La vista frontale popola `foto` ed è quella da cui si estrae il colore; il file
+//   `<id>-<slug>-retro.<ext>`, se c'è, popola `fotoRetro` e si vede solo nell'overlay.
 // - Le foto sono scontornate su fondo trasparente: si considerano solo i pixel opachi,
 //   così lo sfondo non inquina il colore.
 // - La media semplice non funziona: la tazza è quasi tutta ceramica bianca e il
@@ -129,9 +130,10 @@ async function main() {
   let updated = 0;
   for (const mug of mugs) {
     const idStr = String(mug.id).padStart(3, "0");
-    const match = files
-      .filter((f) => f.startsWith(`${idStr}-`) || f.startsWith(`${mug.id}-`))
-      .filter((f) => !/-retro\.[a-z0-9]+$/i.test(f))[0];
+    const suoi = files.filter((f) => f.startsWith(`${idStr}-`) || f.startsWith(`${mug.id}-`));
+    const match = suoi.find((f) => !/-retro\.[a-z0-9]+$/i.test(f));
+    const retro = suoi.find((f) => /-retro\.[a-z0-9]+$/i.test(f));
+    mug.fotoRetro = retro ? `mugs/${retro}` : "";
     if (!match) continue;
 
     const filePath = path.join(PHOTOS_DIR, match);

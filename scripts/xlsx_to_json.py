@@ -28,6 +28,7 @@ for i, r in enumerate(rows):
         "citta": citta or "",
         "anno": anno or "",
         "foto": foto or "",
+        "fotoRetro": "",
         "note": note or "",
         "colore": FALLBACK_PALETTE[i % len(FALLBACK_PALETTE)],
         "coloreFonte": "fallback"
