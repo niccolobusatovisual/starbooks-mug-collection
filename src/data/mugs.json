@@ -46,10 +46,10 @@
     "paese": "",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/004-austria.webp",
     "note": "",
-    "colore": "#7A5C3E",
-    "coloreFonte": "fallback"
+    "colore": "#5a6223",
+    "coloreFonte": "foto"
   },
   {
     "id": 5,
@@ -462,10 +462,10 @@
     "paese": "",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/036-hungary.webp",
     "note": "",
-    "colore": "#3F513F",
-    "coloreFonte": "fallback"
+    "colore": "#667213",
+    "coloreFonte": "foto"
   },
   {
     "id": 37,
@@ -475,10 +475,10 @@
     "paese": "",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/037-iceland.webp",
     "note": "",
-    "colore": "#2B4C3F",
-    "coloreFonte": "fallback"
+    "colore": "#5f681c",
+    "coloreFonte": "foto"
   },
   {
     "id": 38,
@@ -878,10 +878,10 @@
     "paese": "Austria",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/068-salzburg.webp",
     "note": "",
-    "colore": "#8C6A4F",
-    "coloreFonte": "fallback"
+    "colore": "#164d6e",
+    "coloreFonte": "foto"
   },
   {
     "id": 69,
@@ -1203,10 +1203,10 @@
     "paese": "",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/093-florida.webp",
     "note": "",
-    "colore": "#1E3932",
-    "coloreFonte": "fallback"
+    "colore": "#2c5832",
+    "coloreFonte": "foto"
   },
   {
     "id": 94,
@@ -1450,10 +1450,10 @@
     "paese": "USA",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/112-philadelphia.webp",
     "note": "",
-    "colore": "#00754A",
-    "coloreFonte": "fallback"
+    "colore": "#203a65",
+    "coloreFonte": "foto"
   },
   {
     "id": 113,
@@ -1515,10 +1515,10 @@
     "paese": "USA",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/117-washington.webp",
     "note": "",
-    "colore": "#2B4C3F",
-    "coloreFonte": "fallback"
+    "colore": "#2e4756",
+    "coloreFonte": "foto"
   },
   {
     "id": 118,
@@ -1528,10 +1528,10 @@
     "paese": "USA",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/118-boston.webp",
     "note": "",
-    "colore": "#8C6A4F",
-    "coloreFonte": "fallback"
+    "colore": "#622a23",
+    "coloreFonte": "foto"
   },
   {
     "id": 119,
@@ -1541,10 +1541,10 @@
     "paese": "USA",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/119-massachusetts.webp",
     "note": "",
-    "colore": "#0F3B2E",
-    "coloreFonte": "fallback"
+    "colore": "#6f501e",
+    "coloreFonte": "foto"
   },
   {
     "id": 120,
@@ -1567,10 +1567,10 @@
     "paese": "USA",
     "citta": "",
     "anno": "",
-    "foto": "",
+    "foto": "mugs/121-manhattan.webp",
     "note": "",
-    "colore": "#006241",
-    "coloreFonte": "fallback"
+    "colore": "#6c4d19",
+    "coloreFonte": "foto"
   },
   {
     "id": 122,
