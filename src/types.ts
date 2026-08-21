@@ -6,7 +6,8 @@ export interface Mug {
   paese: string;
   citta: string;
   anno: string | number;
-  foto: string; // percorso relativo dentro /public, es. "mugs/001-roma.jpg"
+  foto: string; // vista frontale, percorso dentro /public, es. "mugs/001-roma.webp"
+  fotoRetro: string; // vista posteriore, es. "mugs/001-roma-retro.webp" ("" se assente)
   note: string;
   colore: string; // hex, colore dominante (dalla foto) o fallback
   coloreFonte: "foto" | "fallback";
