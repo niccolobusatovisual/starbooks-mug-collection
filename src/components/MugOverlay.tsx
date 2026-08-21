@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Mug } from "../types";
 import { readableTextColor } from "../lib/contrast";
 import descrizioni from "../data/descrizioni.json";
@@ -10,7 +10,16 @@ interface MugOverlayProps {
 
 const testi = descrizioni as Record<string, string>;
 
+type Vista = "fronte" | "retro";
+
 export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
+  const [vista, setVista] = useState<Vista>("fronte");
+
+  // Ogni tazza si apre sempre sulla vista frontale.
+  useEffect(() => {
+    setVista("fronte");
+  }, [mug?.id]);
+
   useEffect(() => {
     if (!mug) return;
     const onKey = (e: KeyboardEvent) => {
@@ -26,6 +35,14 @@ export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
 
   if (!mug) return null;
   const textColor = readableTextColor(mug.colore);
+  const scuroSuChiaro = textColor !== "#ffffff";
+  const disco = scuroSuChiaro ? "rgba(30,57,50,0.09)" : "rgba(255,255,255,0.13)";
+  const velo = scuroSuChiaro ? "rgba(30,57,50,0.12)" : "rgba(255,255,255,0.18)";
+  const haRetro = Boolean(mug.fotoRetro);
+  const viste: { chiave: Vista; etichetta: string; src: string }[] = [
+    { chiave: "fronte", etichetta: "Fronte", src: mug.foto },
+    ...(haRetro ? [{ chiave: "retro" as Vista, etichetta: "Retro", src: mug.fotoRetro }] : []),
+  ];
 
   const luogo = [mug.citta, mug.paese].filter(Boolean).join(", ") || mug.nome;
   const mapQuery = encodeURIComponent(luogo);
@@ -54,17 +71,60 @@ export default function MugOverlay({ mug, onClose }: MugOverlayProps) {
           </svg>
         </button>
 
-        {/* Visual */}
+        {/* Visual: fronte e retro, sovrapposti e incrociati in dissolvenza */}
         <div
           style={{ backgroundColor: mug.colore, color: textColor }}
-          className="flex min-h-[220px] items-center justify-center p-8 sm:min-h-[420px] sm:w-2/5 sm:shrink-0"
+          className="flex min-h-[220px] flex-col items-center justify-center gap-5 p-8 sm:min-h-[420px] sm:w-2/5 sm:shrink-0"
         >
           {mug.foto ? (
-            <img
-              src={`${import.meta.env.BASE_URL}${mug.foto}`}
-              alt={mug.nome}
-              className="h-full max-h-[380px] w-auto object-contain drop-shadow-2xl"
-            />
+            <>
+              <div
+                onClick={haRetro ? () => setVista(vista === "fronte" ? "retro" : "fronte") : undefined}
+                className={`relative h-[200px] w-full sm:h-[300px] ${haRetro ? "cursor-pointer" : ""}`}
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute left-1/2 top-1/2 aspect-square w-[74%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                  style={{ backgroundColor: disco }}
+                />
+                {viste.map((v) => (
+                  <img
+                    key={v.chiave}
+                    src={`${import.meta.env.BASE_URL}${v.src}`}
+                    alt={`${mug.nome} — vista ${v.etichetta.toLowerCase()}`}
+                    aria-hidden={vista !== v.chiave}
+                    className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ease-out ${
+                      vista === v.chiave ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {haRetro && (
+                <div
+                  className="flex gap-1 rounded-full p-1"
+                  style={{ backgroundColor: velo }}
+                  role="group"
+                  aria-label="Vista della tazza"
+                >
+                  {viste.map((v) => (
+                    <button
+                      key={v.chiave}
+                      onClick={() => setVista(v.chiave)}
+                      aria-pressed={vista === v.chiave}
+                      className="rounded-full px-3.5 py-1 text-[11px] font-semibold uppercase tracking-wide transition-opacity"
+                      style={
+                        vista === v.chiave
+                          ? { backgroundColor: textColor, color: mug.colore }
+                          : { opacity: 0.75 }
+                      }
+                    >
+                      {v.etichetta}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
           ) : (
             <svg viewBox="0 0 64 64" className="h-40 w-40 opacity-25" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 20h32v22a10 10 0 0 1-10 10H22a10 10 0 0 1-10-10V20Z" />

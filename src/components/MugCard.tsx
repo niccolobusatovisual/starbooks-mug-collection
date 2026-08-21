@@ -9,6 +9,9 @@ interface MugCardProps {
 export default function MugCard({ mug, onClick }: MugCardProps) {
   const textColor = readableTextColor(mug.colore);
   const hasPhoto = Boolean(mug.foto);
+  const scuroSuChiaro = textColor !== "#ffffff";
+  const velo = scuroSuChiaro ? "rgba(30,57,50,0.12)" : "rgba(255,255,255,0.18)";
+  const disco = scuroSuChiaro ? "rgba(30,57,50,0.09)" : "rgba(255,255,255,0.13)";
 
   return (
     <button
@@ -29,23 +32,29 @@ export default function MugCard({ mug, onClick }: MugCardProps) {
         <div className="mt-3">
           <span
             className="inline-block rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wide sm:text-[11px]"
-            style={{
-              backgroundColor: textColor === "#ffffff" ? "rgba(255,255,255,0.18)" : "rgba(30,57,50,0.12)",
-            }}
+            style={{ backgroundColor: velo }}
           >
             {mug.collezione}
           </span>
         </div>
       </div>
 
-      {/* Immagine tazza: metà destra */}
+      {/* Immagine tazza: metà destra, appoggiata su un disco che le fa da piano */}
       <div className="pointer-events-none relative flex w-1/2 items-center justify-center p-4 sm:w-[55%] sm:p-6">
         {hasPhoto ? (
-          <img
-            src={`${import.meta.env.BASE_URL}${mug.foto}`}
-            alt={mug.nome}
-            className="h-[80%] w-auto object-contain drop-shadow-2xl transition-transform duration-500 ease-out group-hover:scale-105"
-          />
+          <>
+            <span
+              aria-hidden="true"
+              className="absolute aspect-square w-[64%] rounded-full transition-transform duration-500 ease-out group-hover:scale-105"
+              style={{ backgroundColor: disco }}
+            />
+            <img
+              src={`${import.meta.env.BASE_URL}${mug.foto}`}
+              alt={mug.nome}
+              loading="lazy"
+              className="relative h-[80%] w-auto object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+            />
+          </>
         ) : (
           <svg
             viewBox="0 0 64 64"
